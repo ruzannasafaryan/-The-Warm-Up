@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Metrics Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 40px;
+        }
+        .metrics {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Metrics Calculator</h1>
+    <textarea id="textInput" placeholder="Type your text here..."></textarea>
+    <button onclick="calculateMetrics()">Calculate Metrics</button>
+
+    <div class="metrics" id="metricsOutput">
+        <!-- Metrics will be displayed here -->
+    </div>
+
+    <script>
+        function calculateMetrics() {
+            const text = document.getElementById('textInput').value;
+            const output = document.getElementById('metricsOutput');
+
+            if (!text) {
+                output.innerHTML = 'Please enter some text.';
+                return;
+            }
+
+            // Count letters, words, sentences, and paragraphs
+            const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+            const wordCount = (text.match(/\b\w+\b/g) || []).length;
+            const sentenceCount = (text.match(/[.!?]+/g) || []).length;
+            const paragraphCount = (text.match(/\n\s*\n/g) || []).length + 1; // Assumes paragraphs are separated by two newlines
+
+            // Calculate average word length
+            const words = text.match(/\b\w+\b/g) || [];
+            const totalLetterCount = words.reduce((total, word) => total + word.length, 0);
+            const averageWordLength = words.length ? (totalLetterCount / words.length).toFixed(2) : 0;
+
+            // Display metrics
+            output.innerHTML = `
+                <strong>Metrics:</strong><br>
+                Letters: ${letterCount}<br>
+                Words: ${wordCount}<br>
+                Sentences: ${sentenceCount}<br>
+                Paragraphs: ${paragraphCount}<br>
+                Average Word Length: ${averageWordLength} characters
+            `;
+        }
+    </script>
+</body>
+</html>
